@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Above Average Club — Refuse to Live an Average Life</title>
+<meta name="description" content="Above Average Club is coming soon. A movement for people who refuse to drift. Take the 20-question assessment and see where you actually stand — across the five dimensions of a whole life.">
+<meta property="og:title" content="Above Average Club">
+<meta property="og:description" content="Average Is the New Mediocre. Take the 20-question assessment and see where you stand.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aboveaverageclub.com">
+<!-- TODO Larry: generate an OG image with the quote generator (1200x630) and add: <meta property="og:image" content="..."> -->
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!--
+============================================================
+LARRY — HOW TO SHIP THIS (20 MINUTES, START TO FINISH)
+============================================================
+
+The plan: Vercel hosts your site, Web3Forms captures your emails.
+Both are free. Neither requires a credit card. You will end up with
+aboveaverageclub.com live on the internet, capturing real signups.
+
+STEP 1 — Get your free Web3Forms access key (2 min)
+  Go to web3forms.com/#start
+  Enter YOUR email address (this is where waitlist signups will be sent).
+  Check your inbox for the access key — a long string of letters/numbers.
+  Copy it. You will paste it in Step 2.
+
+STEP 2 — Paste your access key into this file (30 sec)
+  Search this file for: PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE
+  Replace it with your access key (keep the quotes).
+  Save the file.
+
+STEP 3 — Sign up for Vercel (2 min)
+  Go to vercel.com. Sign up with email or GitHub. Free.
+
+STEP 4 — Deploy (3 min)
+  Go to vercel.com/drop
+  Drag this HTML file onto the page.
+  Give the project a name (like "aboveaverageclub").
+  Click Deploy.
+  Vercel gives you a live URL like your-project.vercel.app.
+  Open it. Test it. Take the assessment. Submit your email.
+
+STEP 5 — Confirm signups are working
+  You should get an email from Web3Forms in the inbox you registered
+  with in Step 1, containing your email + score + rank + dimensions.
+  If you got that email, everything is wired up correctly.
+
+STEP 6 — Point your domain (10 min)
+  In Vercel: Your project → Settings → Domains → Add Domain
+  Type aboveaverageclub.com and follow Vercel's DNS instructions.
+  Update DNS at your registrar (GoDaddy, Namecheap, etc.)
+  DNS propagation takes 1–24 hours. The site is already live —
+  the custom domain is cosmetic.
+
+STEP 7 — Share the link
+  Send the URL to one person. That's the finish line.
+  AAC exists in the world.
+
+============================================================
+LATER (not this weekend):
+When you need proper newsletter delivery, sign up for Beehiiv,
+export your Web3Forms submissions from your email or Web3Forms
+dashboard, and import to Beehiiv as a starting list. That's a
+future problem for future-Larry.
+============================================================
+-->
+
+<style>
+  :root {
+    --black: #000000;
+    --gold: #D4A93E;
+    --gold-bright: #E8C158;
+    --gold-dim: #8a6d28;
+    --bone: #F5F1E8;
+    --line: rgba(212, 169, 62, 0.25);
+    --line-soft: rgba(212, 169, 62, 0.12);
+    --warm-red: rgba(212, 90, 30, 0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  body {
+    background: var(--black);
+    color: var(--bone);
+    font-family: 'Archivo', system-ui, sans-serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(212, 90, 30, 0.15), transparent 55%),
+      radial-gradient(ellipse at 10% 90%, rgba(212, 130, 40, 0.08), transparent 45%),
+      radial-gradient(ellipse at 90% 90%, rgba(212, 130, 40, 0.08), transparent 45%);
+    pointer-events: none; z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(212, 169, 62, 0.06) 1px, transparent 0);
+    background-size: 26px 26px;
+    opacity: 0.4;
+    pointer-events: none; z-index: 0;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-svg {
+    width: 34px; height: 34px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 11px;
+    color: var(--gold);
+  }
+  .header-cta {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--gold);
+    padding: 9px 16px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .header-cta:hover { background: var(--gold); color: var(--black); }
+  @media (max-width: 640px) {
+    header { padding: 14px 18px; }
+    .logo-text { display: none; }
+    .header-cta { padding: 8px 12px; font-size: 9px; letter-spacing: 0.15em; }
+  }
+
+  main { position: relative; z-index: 1; }
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.5s ease-out; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  section.landing-section {
+    padding: 80px 32px;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  @media (max-width: 640px) {
+    section.landing-section { padding: 60px 20px; }
+  }
+
+  .hero {
+    text-align: center;
+    padding: 60px 32px 100px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  @media (max-width: 640px) { .hero { padding: 40px 20px 80px; } }
+  .eyebrow {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px solid rgba(212, 169, 62, 0.35);
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    margin-bottom: 40px;
+  }
+  .hero h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(38px, 8vw, 96px);
+    line-height: 0.98;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    text-shadow: 0 0 40px rgba(212, 169, 62, 0.25);
+  }
+  .hero-sub {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(17px, 2vw, 24px);
+    color: var(--gold);
+    opacity: 0.85;
+    margin-bottom: 32px;
+    letter-spacing: 0.02em;
+  }
+  .hero-body {
+    font-size: clamp(15px, 1.4vw, 18px);
+    max-width: 600px;
+    margin: 0 auto 48px;
+    opacity: 0.75;
+    line-height: 1.7;
+  }
+
+  .email-form {
+    max-width: 480px;
+    margin: 0 auto 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  @media (min-width: 560px) {
+    .email-form.horizontal {
+      flex-direction: row;
+      gap: 0;
+    }
+  }
+  .email-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--line);
+    color: var(--bone);
+    padding: 18px 20px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    transition: border-color 0.2s;
+  }
+  .email-input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  .email-input::placeholder { color: rgba(245, 241, 232, 0.4); }
+  @media (min-width: 560px) {
+    .email-form.horizontal .email-input {
+      border-right: none;
+    }
+  }
+  .btn-submit {
+    background: var(--gold);
+    color: var(--black);
+    border: 1px solid var(--gold);
+    padding: 18px 30px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .btn-submit:hover:not(:disabled) { background: var(--gold-bright); }
+  .btn-submit:disabled { opacity: 0.6; cursor: wait; }
+
+  .form-note {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: 12px;
+    opacity: 0.5;
+    color: var(--gold);
+    margin-bottom: 40px;
+    letter-spacing: 0.03em;
+  }
+  .form-error {
+    color: #d97757;
+    font-size: 13px;
+    margin-top: 8px;
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+  }
+
+  .btn-secondary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+    padding: 12px 8px;
+    transition: opacity 0.2s;
+    opacity: 0.85;
+  }
+  .btn-secondary-link:hover { opacity: 1; }
+  .btn-secondary-link .arrow { transition: transform 0.2s; }
+  .btn-secondary-link:hover .arrow { transform: translateX(4px); }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .section-eyebrow {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 20px;
+  }
+  .section-headline {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: clamp(28px, 4.5vw, 48px);
+    color: var(--gold);
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    max-width: 720px;
+    margin: 0 auto;
+    text-transform: uppercase;
+  }
+  .section-sub {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: clamp(15px, 1.5vw, 19px);
+    color: var(--gold);
+    opacity: 0.75;
+    margin-top: 20px;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .dimensions-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  @media (min-width: 640px) { .dimensions-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 960px) { .dimensions-grid { grid-template-columns: repeat(5, 1fr); gap: 12px; } }
+
+  .dim-card {
+    padding: 32px 20px;
+    border: 1px solid var(--line);
+    background: rgba(212, 169, 62, 0.02);
+    text-align: center;
+    transition: all 0.25s ease;
+  }
+  .dim-card:hover {
+    border-color: var(--gold);
+    background: rgba(212, 169, 62, 0.05);
+    transform: translateY(-3px);
+  }
+  .dim-mark {
+    width: 44px; height: 44px;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--gold);
+    transform: rotate(45deg);
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .dim-mark span { transform: rotate(-45deg); }
+  .dim-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .dim-desc {
+    font-size: 13px;
+    opacity: 0.75;
+    line-height: 1.55;
+  }
+
+  .assessment-cta {
+    text-align: center;
+    padding: 80px 32px;
+    max-width: 800px;
+    margin: 0 auto;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    position: relative;
+  }
+  .assessment-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(212, 90, 30, 0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .assessment-cta > * { position: relative; z-index: 1; }
+  .assessment-cta h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: clamp(28px, 4.5vw, 52px);
+    color: var(--gold);
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .assessment-cta p {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: clamp(15px, 1.4vw, 18px);
+    color: var(--gold);
+    opacity: 0.85;
+    max-width: 540px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 20px 40px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .btn-primary:hover { background: var(--gold-bright); }
+  .btn-primary .arrow { transition: transform 0.3s; }
+  .btn-primary:hover .arrow { transform: translateX(4px); }
+
+  .second-email {
+    text-align: center;
+    padding: 80px 32px 40px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .second-email h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: clamp(24px, 3.5vw, 40px);
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .second-email p {
+    font-size: 15px;
+    opacity: 0.75;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  footer {
+    border-top: 1px solid var(--line-soft);
+    padding: 60px 32px 40px;
+    text-align: center;
+  }
+  .footer-mark {
+    width: 40px; height: 40px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--gold);
+    transform: rotate(45deg);
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    color: var(--gold);
+    font-size: 12px;
+  }
+  .footer-mark span { transform: rotate(-45deg); }
+  .footer-motto {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--gold);
+    opacity: 0.75;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+  }
+  .footer-links a {
+    color: var(--bone);
+    opacity: 0.5;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .footer-links a:hover { opacity: 1; color: var(--gold); }
+  .footer-copy {
+    font-size: 11px;
+    opacity: 0.35;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .assessment-main {
+    padding: 40px 32px 80px;
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 640px) { .assessment-main { padding: 30px 20px 60px; } }
+
+  .progress-wrap {
+    padding: 0 32px;
+    margin-top: 16px;
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (max-width: 640px) { .progress-wrap { padding: 0 20px; } }
+  .progress-bar {
+    height: 2px;
+    width: 100%;
+    background: var(--line-soft);
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    width: 0;
+    transition: width 0.5s ease-out;
+  }
+  .q-meta {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.6;
+  }
+
+  /* Simplified dim-header for interleaved ordering — label only */
+  .dim-header {
+    margin-bottom: 24px;
+  }
+  .dim-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: var(--gold);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    opacity: 0.85;
+  }
+
+  .question-headline {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: clamp(24px, 4vw, 42px);
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    color: var(--gold);
+    margin-bottom: 40px;
+    text-shadow: 0 0 30px rgba(212, 169, 62, 0.15);
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-align: left;
+    padding: 20px 24px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--bone);
+    font-family: 'Archivo', sans-serif;
+    font-size: clamp(14px, 1.3vw, 17px);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1.5;
+  }
+  .option:hover, .option:focus {
+    border-color: var(--gold);
+    background: rgba(212, 169, 62, 0.06);
+    outline: none;
+  }
+  .option-letter {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--gold);
+    width: 32px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .option-text { flex: 1; }
+  .option-arrow {
+    color: var(--gold);
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 18px;
+  }
+  .option:hover .option-arrow { opacity: 1; }
+
+  .back-btn {
+    margin-top: 40px;
+    background: none;
+    border: none;
+    color: var(--bone);
+    opacity: 0.4;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .back-btn:hover { opacity: 0.9; }
+
+  .computing { text-align: center; padding: 100px 0; }
+  .spinner {
+    width: 52px; height: 52px;
+    border: 2px solid var(--gold);
+    border-top-color: transparent;
+    border-radius: 50%;
+    margin: 0 auto 32px;
+    animation: spin 1.4s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .computing p {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: clamp(20px, 2.4vw, 30px);
+    color: var(--gold);
+    opacity: 0.9;
+  }
+
+  .verdict {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .verdict-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 24px;
+  }
+  .verdict-rank {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(46px, 8.5vw, 100px);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    text-shadow: 0 0 40px rgba(212, 169, 62, 0.25);
+  }
+  .verdict-score {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .verdict-score .num {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(52px, 7vw, 92px);
+    line-height: 1;
+    color: var(--gold);
+  }
+  .verdict-score .total {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(16px, 1.5vw, 22px);
+    opacity: 0.5;
+    color: var(--gold);
+  }
+  .verdict-blurb {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: clamp(17px, 1.7vw, 24px);
+    max-width: 680px;
+    margin: 0 auto;
+    color: var(--gold);
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+
+  .breakdown {
+    border-top: 1px solid var(--line-soft);
+    padding-top: 44px;
+    margin-bottom: 48px;
+  }
+  .breakdown-title {
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 36px;
+  }
+  .dimensions-r {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .dim-row-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+  .dim-r-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(13px, 1.2vw, 16px);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+  }
+  .dim-r-status {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+  }
+  .dim-r-status.strong { color: var(--gold-bright); opacity: 1; }
+  .dim-r-status.developing { color: var(--gold); }
+  .dim-r-status.weak { color: #d97757; }
+  .dim-r-status.neglected { color: #d97757; opacity: 1; }
+  .dim-r-score {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(20px, 2vw, 26px);
+    color: var(--gold);
+  }
+  .dim-r-score .small {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    opacity: 0.4;
+    margin-left: 4px;
+  }
+  .dim-track {
+    height: 6px;
+    width: 100%;
+    background: var(--line-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .dim-fill {
+    height: 100%;
+    width: 0;
+    transition: width 0.9s ease-out;
+    background: var(--gold);
+  }
+  .dim-fill.strong { background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+  .dim-fill.developing { background: var(--gold); opacity: 0.85; }
+  .dim-fill.weak { background: var(--gold); opacity: 0.55; }
+  .dim-fill.neglected { background: var(--gold); opacity: 0.3; }
+
+  .action-block {
+    border: 1px solid var(--line);
+    padding: 36px 28px;
+    margin-bottom: 48px;
+    text-align: center;
+    background:
+      radial-gradient(ellipse at center, rgba(212, 90, 30, 0.08), transparent 70%),
+      rgba(0, 0, 0, 0.4);
+  }
+  .action-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    opacity: 0.75;
+    margin-bottom: 16px;
+  }
+  .action-headline {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: clamp(22px, 3vw, 32px);
+    color: var(--gold);
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  .action-body {
+    font-size: clamp(14px, 1.3vw, 17px);
+    max-width: 540px;
+    margin: 0 auto;
+    opacity: 0.85;
+    line-height: 1.6;
+  }
+
+  .results-waitlist {
+    text-align: center;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 48px;
+    margin-bottom: 48px;
+  }
+  .results-waitlist h3 {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: clamp(24px, 3.5vw, 40px);
+    color: var(--gold);
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .results-waitlist p {
+    font-size: clamp(14px, 1.3vw, 17px);
+    max-width: 560px;
+    margin: 0 auto 32px;
+    opacity: 0.8;
+    line-height: 1.6;
+  }
+
+  .share-row {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .btn-share {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--gold);
+    padding: 14px 28px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-right: 12px;
+  }
+  .btn-share:hover { background: var(--gold); color: var(--black); }
+  .btn-retake {
+    background: none;
+    border: none;
+    color: var(--bone);
+    opacity: 0.5;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    cursor: pointer;
+    padding: 14px;
+    transition: opacity 0.2s;
+  }
+  .btn-retake:hover { opacity: 1; }
+
+  .mh-note {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line-soft);
+    text-align: center;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .mh-note-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    opacity: 0.75;
+    margin-bottom: 14px;
+  }
+  .mh-note p {
+    font-size: 13px;
+    opacity: 0.75;
+    line-height: 1.7;
+  }
+
+  .thanks-screen {
+    text-align: center;
+    padding: 100px 32px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .thanks-mark {
+    width: 60px; height: 60px;
+    margin: 0 auto 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 32px;
+    transform: rotate(45deg);
+  }
+  .thanks-mark span { transform: rotate(-45deg); }
+  .thanks-screen h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(38px, 6vw, 72px);
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    text-shadow: 0 0 40px rgba(212, 169, 62, 0.25);
+  }
+  .thanks-blurb {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: clamp(17px, 1.7vw, 22px);
+    color: var(--gold);
+    opacity: 0.9;
+    max-width: 560px;
+    margin: 0 auto 40px;
+    line-height: 1.5;
+  }
+  .thanks-body {
+    font-size: 15px;
+    opacity: 0.75;
+    max-width: 500px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+  .thanks-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+  @media (min-width: 640px) { .thanks-actions { flex-direction: row; justify-content: center; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg class="logo-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#E8C158"/>
+          <stop offset="100%" stop-color="#8a6d28"/>
+        </linearGradient>
+      </defs>
+      <polygon points="32,3 58,17 58,47 32,61 6,47 6,17" fill="none" stroke="url(#goldGrad)" stroke-width="2.5"/>
+      <polygon points="14,44 26,26 32,34 42,20 50,44" fill="#C0C0C0" opacity="0.85"/>
+      <polygon points="14,44 26,26 30,32 24,44" fill="#8a8a8a" opacity="0.9"/>
+      <polygon points="42,20 50,44 38,44" fill="#a8a8a8"/>
+      <polygon points="42,20 46,26 40,26" fill="#E8C158"/>
+    </svg>
+    <span class="logo-text">Above Average Club</span>
+  </div>
+  <button class="header-cta" id="header-cta">Join Waitlist</button>
+</header>
+
+<div class="progress-wrap" id="progress-wrap" style="display:none;">
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="q-meta"><span id="meta-q">Question 1 of 20</span></div>
+</div>
+
+<main>
+
+  <!-- LANDING -->
+  <section class="screen active" id="screen-landing">
+
+    <div class="hero">
+      <div class="eyebrow">Coming Soon</div>
+      <h1>Average Is<br>The New<br>Mediocre.</h1>
+      <p class="hero-sub">A movement for people who refuse to live average lives.</p>
+      <p class="hero-body">Above Average Club is a growing community built on one simple standard — every day, do one thing above average. Across five dimensions of a whole life. Get on the list. Or take the 20-question assessment and see where you actually stand.</p>
+
+      <form class="email-form horizontal" id="email-form-hero">
+        <input class="email-input" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        <button class="btn-submit" type="submit">Reserve My Spot</button>
+      </form>
+      <div class="form-note">No spam. No sales pitch. Just the invitation when the doors open.</div>
+
+      <button class="btn-secondary-link" id="take-assessment-btn">
+        Take the 20-Question Assessment <span class="arrow">→</span>
+      </button>
+    </div>
+
+    <section class="landing-section">
+      <div class="section-header">
+        <div class="section-eyebrow">The Framework</div>
+        <h2 class="section-headline">Five Dimensions of a Whole Life</h2>
+        <p class="section-sub">Not fitness. Not motivation. Not a habit tracker. All of it — measured, one small step at a time.</p>
+      </div>
+      <div class="dimensions-grid">
+        <div class="dim-card">
+          <div class="dim-mark"><span>I</span></div>
+          <div class="dim-name">Spiritual</div>
+          <div class="dim-desc">Purpose, practice, and living from your deepest values.</div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-mark"><span>II</span></div>
+          <div class="dim-name">Physical</div>
+          <div class="dim-desc">Strength, movement, sleep, and the body you were built for.</div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-mark"><span>III</span></div>
+          <div class="dim-name">Intellectual</div>
+          <div class="dim-desc">Reading, focus, curiosity, and a mind that keeps growing.</div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-mark"><span>IV</span></div>
+          <div class="dim-name">Social</div>
+          <div class="dim-desc">Real relationships, community, and being known by name.</div>
+        </div>
+        <div class="dim-card">
+          <div class="dim-mark"><span>V</span></div>
+          <div class="dim-name">Emotional</div>
+          <div class="dim-desc">Self-awareness, gratitude, and recovering from what breaks.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="assessment-cta">
+      <h2>Where do you<br>actually stand?</h2>
+      <p>Twenty honest questions. Five dimensions. One clear number. No timer, because this deserves your attention. Free. No signup required to take it.</p>
+      <button class="btn-primary" id="take-assessment-btn-2">
+        Begin the Assessment <span class="arrow">→</span>
+      </button>
+    </div>
+
+    <div class="second-email">
+      <h3>Get on the list.</h3>
+      <p>The doors haven't opened yet. When they do, waitlist members go in first — with a founding-member offer that will never come around again.</p>
+      <form class="email-form horizontal" id="email-form-bottom">
+        <input class="email-input" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        <button class="btn-submit" type="submit">Join the Waitlist</button>
+      </form>
+      <div class="form-note">One email when we open. That's it.</div>
+    </div>
+
+    <footer>
+      <div class="footer-mark"><span>AA</span></div>
+      <div class="footer-motto">— Average Is the New Mediocre —</div>
+      <div class="footer-links">
+        <a href="mailto:hello@aboveaverageclub.com">Contact</a>
+        <a href="#" id="footer-assess">Take the Assessment</a>
+      </div>
+      <div class="footer-copy">© Above Average Club. All rights reserved.</div>
+    </footer>
+  </section>
+
+  <!-- QUESTION -->
+  <section class="screen" id="screen-question">
+    <div class="assessment-main">
+      <div class="dim-header">
+        <span class="dim-label" id="q-dim">DIMENSION — SPIRITUAL</span>
+      </div>
+      <h2 class="question-headline" id="q-headline"></h2>
+      <div class="options" id="q-options"></div>
+      <button class="back-btn" id="back-btn" style="display:none;">← Previous question</button>
+    </div>
+  </section>
+
+  <!-- COMPUTING -->
+  <section class="screen" id="screen-computing">
+    <div class="assessment-main">
+      <div class="computing">
+        <div class="spinner"></div>
+        <p>Weighing your line…</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="screen" id="screen-result">
+    <div class="assessment-main">
+      <div class="verdict">
+        <div class="verdict-eyebrow">Your Verdict</div>
+        <div class="verdict-rank" id="r-rank"></div>
+        <div class="verdict-score">
+          <span class="num" id="r-score"></span>
+          <span class="total">/ 20</span>
+        </div>
+        <p class="verdict-blurb" id="r-blurb"></p>
+      </div>
+
+      <div class="breakdown">
+        <div class="breakdown-title">Your Five Dimensions</div>
+        <div class="dimensions-r" id="r-dimensions"></div>
+      </div>
+
+      <div class="action-block">
+        <div class="action-eyebrow">Your Next Move</div>
+        <h3 class="action-headline" id="r-action-headline"></h3>
+        <p class="action-body" id="r-action-body"></p>
+      </div>
+
+      <div class="results-waitlist">
+        <h3>Get the full report<br>when the doors open.</h3>
+        <p>You have your score. When Above Average Club opens, waitlist members go in first — with a founding-member offer built for this exact starting line.</p>
+        <form class="email-form horizontal" id="email-form-result">
+          <input class="email-input" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+          <button class="btn-submit" type="submit">Join the Waitlist</button>
+        </form>
+        <div class="form-note">Your score comes with you when you join.</div>
+      </div>
+
+      <div class="share-row">
+        <button class="btn-share" id="share-btn">↗ Share My Score</button>
+        <button class="btn-retake" id="restart-btn">↻ Retake</button>
+      </div>
+
+      <div class="mh-note" id="mh-note" style="display:none;">
+        <div class="mh-note-label">A Note From the Team</div>
+        <p>If your Emotional or Social score came in very low and you are struggling right now, please consider reaching out to a therapist, physician, or someone you trust. Growth systems like this one are meant to complement mental health care — never to replace it. You are not alone, and reaching out is above average.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THANKS -->
+  <section class="screen" id="screen-thanks">
+    <div class="thanks-screen">
+      <div class="thanks-mark"><span>✓</span></div>
+      <h2>You're In.</h2>
+      <p class="thanks-blurb">You just did something most people never do — you crossed the line from watching to belonging.</p>
+      <p class="thanks-body">You'll hear from us when the doors open, and not one email before. In the meantime — go do one above average thing today. That's the whole assignment.</p>
+      <div class="thanks-actions">
+        <button class="btn-primary" id="thanks-share">Share This <span class="arrow">→</span></button>
+        <button class="btn-secondary-link" id="thanks-home">Back to home <span class="arrow">→</span></button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// ============================================================
+// FORM HANDLING — WIRED TO WEB3FORMS
+// ============================================================
+// Get your free access key at web3forms.com/#start (enter your
+// email, they email you the key). Paste it in the constant below.
+// Free tier: 250 waitlist signups per month. No credit card.
+// Submissions arrive as emails at the address you registered with.
+// ============================================================
+
+const WEB3FORMS_ACCESS_KEY = "PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE";
+
+// ============================================================
+// THE 20 QUESTIONS — INTERLEAVED ORDER
+// Each dimension appears 4 times, spread across 4 rounds.
+// No dimension in adjacent positions.
+// No dimension appears twice in any 3-question window.
+// Prevents context bias, halo effect, and consistency inflation.
+// ============================================================
+const QUESTIONS = [
+  // Q1 — Spiritual
+  {
+    dim: 'Spiritual',
+    headline: 'How often do you engage in intentional spiritual practice — prayer, meditation, Scripture, contemplation, or worship?',
+    options: [
+      { letter: 'A', text: 'Daily — it is part of my life' },
+      { letter: 'B', text: 'Several times a week' },
+      { letter: 'C', text: 'Weekly' },
+      { letter: 'D', text: 'A few times a month' },
+      { letter: 'E', text: 'I do not currently engage in spiritual practice' },
+    ],
+  },
+  // Q2 — Physical
+  {
+    dim: 'Physical',
+    headline: 'In a typical week, how many days do you get at least 30 minutes of intentional physical activity?',
+    options: [
+      { letter: 'A', text: '6 or 7 days' },
+      { letter: 'B', text: '4 or 5 days' },
+      { letter: 'C', text: '2 or 3 days' },
+      { letter: 'D', text: '1 day' },
+      { letter: 'E', text: 'I am not currently physically active' },
+    ],
+  },
+  // Q3 — Intellectual
+  {
+    dim: 'Intellectual',
+    headline: 'How often do you intentionally read or consume substantive learning content — books, longform, or courses?',
+    options: [
+      { letter: 'A', text: 'Daily' },
+      { letter: 'B', text: 'Several times per week' },
+      { letter: 'C', text: 'Weekly' },
+      { letter: 'D', text: 'A few times per month' },
+      { letter: 'E', text: 'I do not currently engage in intentional learning' },
+    ],
+  },
+  // Q4 — Social
+  {
+    dim: 'Social',
+    headline: 'How many people in your life could you call at 2 AM in a real crisis, knowing they would show up for you?',
+    options: [
+      { letter: 'A', text: 'Three or more' },
+      { letter: 'B', text: 'Two' },
+      { letter: 'C', text: 'One' },
+      { letter: 'D', text: 'I would hesitate to call anyone' },
+      { letter: 'E', text: 'There is no one I could call' },
+    ],
+  },
+  // Q5 — Emotional
+  {
+    dim: 'Emotional',
+    headline: 'Under real stress, how well are you able to remain composed and choose your response — rather than react?',
+    options: [
+      { letter: 'A', text: 'Almost always — I have reliable practices' },
+      { letter: 'B', text: 'Most of the time' },
+      { letter: 'C', text: 'Sometimes — it depends on the day' },
+      { letter: 'D', text: 'Rarely — I usually react' },
+      { letter: 'E', text: 'I feel emotionally overwhelmed by stress' },
+    ],
+  },
+  // Q6 — Physical
+  {
+    dim: 'Physical',
+    headline: 'In a typical week, how often do you engage in resistance or strength training?',
+    options: [
+      { letter: 'A', text: '4 or more times per week' },
+      { letter: 'B', text: '3 times per week' },
+      { letter: 'C', text: '1 or 2 times per week' },
+      { letter: 'D', text: 'A few times per month' },
+      { letter: 'E', text: 'I do not currently strength train' },
+    ],
+  },
+  // Q7 — Intellectual
+  {
+    dim: 'Intellectual',
+    headline: 'How often do you spend at least 60 uninterrupted minutes in focused work or thinking — no phone, no notifications?',
+    options: [
+      { letter: 'A', text: 'Daily' },
+      { letter: 'B', text: 'Several times per week' },
+      { letter: 'C', text: 'Weekly' },
+      { letter: 'D', text: 'Rarely' },
+      { letter: 'E', text: 'I do not have periods of undistracted focus' },
+    ],
+  },
+  // Q8 — Emotional
+  {
+    dim: 'Emotional',
+    headline: 'How accurately can you name what you are feeling — beyond "fine," "stressed," or "tired" — as it is happening?',
+    options: [
+      { letter: 'A', text: 'Almost always — I have precise emotional vocabulary' },
+      { letter: 'B', text: 'Usually' },
+      { letter: 'C', text: 'Sometimes, when I stop to think about it' },
+      { letter: 'D', text: 'Rarely — I usually notice after the fact' },
+      { letter: 'E', text: 'I do not track my emotional states' },
+    ],
+  },
+  // Q9 — Spiritual
+  {
+    dim: 'Spiritual',
+    headline: 'How clearly do you know your life\u2019s deeper purpose — beyond your immediate roles and responsibilities?',
+    options: [
+      { letter: 'A', text: 'I know it clearly and live from it daily' },
+      { letter: 'B', text: 'I know it, and it guides most of my decisions' },
+      { letter: 'C', text: 'I have a general sense of it' },
+      { letter: 'D', text: 'I am still searching or unsure' },
+      { letter: 'E', text: 'I have not seriously considered this' },
+    ],
+  },
+  // Q10 — Social
+  {
+    dim: 'Social',
+    headline: 'In a typical week, how often do you have conversations that go deeper than surface-level updates and logistics?',
+    options: [
+      { letter: 'A', text: 'Multiple times per week' },
+      { letter: 'B', text: 'Weekly' },
+      { letter: 'C', text: 'A few times per month' },
+      { letter: 'D', text: 'Rarely' },
+      { letter: 'E', text: 'I do not have deep conversations' },
+    ],
+  },
+  // Q11 — Intellectual
+  {
+    dim: 'Intellectual',
+    headline: 'In the past six months, have you actively developed a new skill — or expanded expertise in an existing one?',
+    options: [
+      { letter: 'A', text: 'Yes — I am actively practicing it now' },
+      { letter: 'B', text: 'Yes — I made meaningful progress' },
+      { letter: 'C', text: 'I started something but did not sustain it' },
+      { letter: 'D', text: 'I have intended to, but have not begun' },
+      { letter: 'E', text: 'I am not currently developing any skill' },
+    ],
+  },
+  // Q12 — Emotional
+  {
+    dim: 'Emotional',
+    headline: 'How often do you deliberately acknowledge specific things you are grateful for — spoken, written, or in prayer?',
+    options: [
+      { letter: 'A', text: 'Daily' },
+      { letter: 'B', text: 'Several times per week' },
+      { letter: 'C', text: 'Weekly' },
+      { letter: 'D', text: 'Occasionally' },
+      { letter: 'E', text: 'I do not have a gratitude practice' },
+    ],
+  },
+  // Q13 — Physical
+  {
+    dim: 'Physical',
+    headline: 'On a typical night, how many hours of quality sleep do you actually get?',
+    options: [
+      { letter: 'A', text: '7 to 9 hours, consistently restful' },
+      { letter: 'B', text: '7 to 9 hours, but not always restful' },
+      { letter: 'C', text: '6 to 7 hours' },
+      { letter: 'D', text: '5 to 6 hours' },
+      { letter: 'E', text: 'Under 5 hours, or highly irregular' },
+    ],
+  },
+  // Q14 — Social
+  {
+    dim: 'Social',
+    headline: 'How actively are you engaged in a community — faith, interest, or cause — where you are known by name and know others?',
+    options: [
+      { letter: 'A', text: 'Actively involved — I am known and I know others' },
+      { letter: 'B', text: 'Regularly involved' },
+      { letter: 'C', text: 'Occasionally involved' },
+      { letter: 'D', text: 'I attend, but I am not connected' },
+      { letter: 'E', text: 'I am not part of any community' },
+    ],
+  },
+  // Q15 — Spiritual
+  {
+    dim: 'Spiritual',
+    headline: 'How often do your daily actions align with your deepest values — even when it costs you something?',
+    options: [
+      { letter: 'A', text: 'Almost always — my values drive my choices' },
+      { letter: 'B', text: 'Most of the time' },
+      { letter: 'C', text: 'Sometimes — I compromise regularly' },
+      { letter: 'D', text: 'Rarely — my values feel disconnected from my daily life' },
+      { letter: 'E', text: 'I have not identified my core values' },
+    ],
+  },
+  // Q16 — Emotional
+  {
+    dim: 'Emotional',
+    headline: 'When you experience a real setback — failure, loss, rejection — how long does it typically take you to regain your footing?',
+    options: [
+      { letter: 'A', text: 'Within a day — I process quickly and honestly' },
+      { letter: 'B', text: 'Within a few days' },
+      { letter: 'C', text: 'Within a week or two' },
+      { letter: 'D', text: 'It takes weeks to months' },
+      { letter: 'E', text: 'I struggle to recover from setbacks' },
+    ],
+  },
+  // Q17 — Physical
+  {
+    dim: 'Physical',
+    headline: 'How often do you eat meals composed primarily of whole, unprocessed foods?',
+    options: [
+      { letter: 'A', text: 'Most of my meals every day' },
+      { letter: 'B', text: 'Most of my meals most days' },
+      { letter: 'C', text: 'About half of my meals' },
+      { letter: 'D', text: 'Occasionally' },
+      { letter: 'E', text: 'I do not intentionally structure my nutrition' },
+    ],
+  },
+  // Q18 — Social
+  {
+    dim: 'Social',
+    headline: 'How often do you intentionally serve, mentor, or contribute to someone outside your family — without expecting return?',
+    options: [
+      { letter: 'A', text: 'Weekly or more' },
+      { letter: 'B', text: 'A few times per month' },
+      { letter: 'C', text: 'Monthly' },
+      { letter: 'D', text: 'A few times a year' },
+      { letter: 'E', text: 'I do not currently serve or mentor others' },
+    ],
+  },
+  // Q19 — Intellectual
+  {
+    dim: 'Intellectual',
+    headline: 'How often do you deliberately examine your own beliefs, opinions, or assumptions — including those you hold strongly?',
+    options: [
+      { letter: 'A', text: 'Regularly — it is part of how I think' },
+      { letter: 'B', text: 'Frequently, when the moment calls for it' },
+      { letter: 'C', text: 'Occasionally' },
+      { letter: 'D', text: 'Rarely' },
+      { letter: 'E', text: 'I do not question my existing beliefs' },
+    ],
+  },
+  // Q20 — Spiritual
+  {
+    dim: 'Spiritual',
+    headline: 'How often do you experience a felt connection to something greater than yourself — through faith, awe, worship, service, or nature?',
+    options: [
+      { letter: 'A', text: 'Daily' },
+      { letter: 'B', text: 'Weekly' },
+      { letter: 'C', text: 'Monthly' },
+      { letter: 'D', text: 'Occasionally' },
+      { letter: 'E', text: 'I do not experience this' },
+    ],
+  },
+];
+
+const POINTS = { A: 1.0, B: 0.75, C: 0.5, D: 0.25, E: 0 };
+const DIMENSIONS = ['Spiritual', 'Physical', 'Intellectual', 'Social', 'Emotional'];
+
+const ACTIONS = {
+  Spiritual: {
+    headline: 'Reclaim Five Minutes Tomorrow',
+    body: 'Choose one spiritual practice — prayer, Scripture, meditation, silence. Five minutes. Before you touch your phone tomorrow morning. That single ritual, held for thirty days, will re-anchor everything else.',
+  },
+  Physical: {
+    headline: 'Move Your Body Tomorrow',
+    body: 'Do not build a plan. Do not join a gym. Walk thirty minutes tomorrow. Then Wednesday. Then Thursday. The plan comes later. The habit starts now — with one honest walk.',
+  },
+  Intellectual: {
+    headline: 'Ten Pages, Phone in Another Room',
+    body: 'Pick up a book — any book — and read ten pages tonight with your phone in another room. Ten pages a day is twelve books a year. In a decade, that is a graduate degree of thinking.',
+  },
+  Social: {
+    headline: 'Send One Real Message Today',
+    body: 'Pick one person on your short list. Text them one real question — not a check-in, not a meme, a question. "How are you actually doing?" is enough. That single message begins to rebuild the muscle.',
+  },
+  Emotional: {
+    headline: 'Three Specific Things, Written Down',
+    body: 'Before you sleep tonight, write down three specific things from today you are grateful for. Not "my family" — specific. Two minutes. The most researched, most ignored practice in mental health. Start tonight.',
+  },
+};
+
+let step = 0;
+let answers = {};
+let lastResults = null;
+
+const totalQ = QUESTIONS.length;
+const $ = (id) => document.getElementById(id);
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showProgress(on) {
+  $('progress-wrap').style.display = on ? 'block' : 'none';
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[step - 1];
+  $('q-dim').textContent = 'DIMENSION — ' + q.dim.toUpperCase();
+  $('q-headline').textContent = q.headline;
+
+  const opts = $('q-options');
+  opts.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML =
+      '<span class="option-letter">' + opt.letter + '</span>' +
+      '<span class="option-text">' + opt.text + '</span>' +
+      '<span class="option-arrow">→</span>';
+    btn.addEventListener('click', () => handleAnswer(opt.letter));
+    opts.appendChild(btn);
+  });
+
+  $('back-btn').style.display = step > 1 ? 'inline-block' : 'none';
+  $('meta-q').textContent = 'Question ' + step + ' of ' + totalQ;
+  $('progress-fill').style.width = ((step - 1) / totalQ * 100) + '%';
+}
+
+function handleAnswer(letter) {
+  answers[step - 1] = letter;
+  if (step === totalQ) {
+    show('screen-computing');
+    $('progress-fill').style.width = '100%';
+    setTimeout(() => renderResults(), 1600);
+  } else {
+    step += 1;
+    show('screen-question');
+    renderQuestion();
+  }
+}
+
+function computeResults() {
+  const dimScores = {};
+  DIMENSIONS.forEach(d => dimScores[d] = 0);
+  QUESTIONS.forEach((q, i) => {
+    const letter = answers[i] || 'E';
+    dimScores[q.dim] += POINTS[letter];
+  });
+  const overall = Object.values(dimScores).reduce((a, b) => a + b, 0);
+
+  let rank, blurb;
+  if (overall >= 17) {
+    rank = 'ELITE';
+    blurb = 'You are living above the line across the full picture of a life. The Club is where you go from elite to legendary — and where you help someone else cross this line.';
+  } else if (overall >= 13) {
+    rank = 'ABOVE AVERAGE';
+    blurb = 'You have crossed the line into a genuinely above average life. Now the work is protecting it — and moving the one dimension holding the rest back.';
+  } else if (overall >= 9) {
+    rank = 'ON THE LINE';
+    blurb = 'You are standing right on the line. One dimension pulled up — the one you know needs it most — moves everything. The Club exists for this exact moment.';
+  } else if (overall >= 5) {
+    rank = 'AVERAGE';
+    blurb = 'You are where most people are. That is not shame — that is a starting line. And starting lines are sacred. The only question is whether you cross it, starting today.';
+  } else {
+    rank = 'DRIFTING';
+    blurb = 'You are drifting across most of your life. Most people would lie about this score. You did not. That honesty is the first above average thing you have done today.';
+  }
+
+  const sorted = Object.entries(dimScores).sort((a, b) => b[1] - a[1]);
+  return {
+    dimScores, overall, rank, blurb,
+    strongest: sorted[0],
+    weakest: sorted[sorted.length - 1],
+  };
+}
+
+function statusFor(score) {
+  if (score >= 3.5) return { label: 'Strong', cls: 'strong' };
+  if (score >= 2.5) return { label: 'Developing', cls: 'developing' };
+  if (score >= 1.25) return { label: 'Weak', cls: 'weak' };
+  return { label: 'Neglected', cls: 'neglected' };
+}
+
+function renderResults() {
+  const r = computeResults();
+  lastResults = r;
+
+  $('r-rank').textContent = r.rank;
+  $('r-score').textContent = r.overall.toFixed(2).replace(/\.?0+$/, '');
+  $('r-blurb').textContent = r.blurb;
+
+  const action = ACTIONS[r.weakest[0]];
+  $('r-action-headline').textContent = action.headline;
+  $('r-action-body').textContent = action.body;
+
+  const dimEl = $('r-dimensions');
+  dimEl.innerHTML = '';
+  DIMENSIONS.forEach((dim, i) => {
+    const score = r.dimScores[dim];
+    const status = statusFor(score);
+    const row = document.createElement('div');
+    row.innerHTML =
+      '<div class="dim-row-header">' +
+        '<span class="dim-r-name">' + dim + '</span>' +
+        '<span class="dim-r-status ' + status.cls + '">' + status.label + '</span>' +
+        '<span class="dim-r-score">' + score.toFixed(2).replace(/\.?0+$/, '') + '<span class="small">/ 4</span></span>' +
+      '</div>' +
+      '<div class="dim-track"><div class="dim-fill ' + status.cls + '" data-target="' + (score / 4 * 100) + '"></div></div>';
+    dimEl.appendChild(row);
+  });
+
+  const mhNote = $('mh-note');
+  const emo = r.dimScores['Emotional'];
+  const soc = r.dimScores['Social'];
+  if (emo <= 0.5 || soc <= 0.5 || r.overall <= 3) {
+    mhNote.style.display = 'block';
+  } else {
+    mhNote.style.display = 'none';
+  }
+
+  showProgress(false);
+  show('screen-result');
+
+  setTimeout(() => {
+    dimEl.querySelectorAll('.dim-fill').forEach((el, i) => {
+      setTimeout(() => {
+        el.style.width = el.dataset.target + '%';
+      }, i * 100);
+    });
+  }, 100);
+}
+
+function startAssessment() {
+  step = 1;
+  answers = {};
+  showProgress(true);
+  show('screen-question');
+  renderQuestion();
+}
+
+function restart() {
+  step = 0;
+  answers = {};
+  showProgress(false);
+  show('screen-landing');
+}
+
+async function handleEmailSubmit(e, source) {
+  e.preventDefault();
+  const form = e.target;
+  const email = form.querySelector('input[name="email"]').value.trim();
+  const submitBtn = form.querySelector('.btn-submit');
+
+  if (!email || !email.includes('@')) {
+    console.warn('Invalid email');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = 'Sending...';
+
+  // Build payload for Web3Forms
+  const payload = {
+    access_key: WEB3FORMS_ACCESS_KEY,
+    subject: 'New AAC Waitlist Signup — ' + email,
+    from_name: 'Above Average Club',
+    email: email,
+    source: source,
+  };
+  if (lastResults) {
+    payload.score = lastResults.overall.toFixed(2);
+    payload.rank = lastResults.rank;
+    payload.weakest_dimension = lastResults.weakest[0];
+    payload.strongest_dimension = lastResults.strongest[0];
+  }
+
+  // If the access key hasn't been set yet, run in demo mode
+  // so Larry can still visually test the flow before deployment.
+  if (WEB3FORMS_ACCESS_KEY === 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
+    console.log('%c[DEMO MODE]', 'color: #D4A93E; font-weight: bold;', 'Web3Forms access key not configured yet.');
+    console.log('Payload that would have been sent:', payload);
+    console.log('Get your key at web3forms.com/#start, then paste it into WEB3FORMS_ACCESS_KEY.');
+    setTimeout(() => {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+      showProgress(false);
+      show('screen-thanks');
+    }, 700);
+    return;
+  }
+
+  // Real submission to Web3Forms
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      console.log('%c[SUBMITTED]', 'color: #D4A93E; font-weight: bold;', payload);
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+      showProgress(false);
+      show('screen-thanks');
+    } else {
+      throw new Error(result.message || 'Submission failed');
+    }
+  } catch (err) {
+    console.error('Signup failed:', err);
+    submitBtn.textContent = 'Try again';
+    submitBtn.disabled = false;
+  }
+}
+
+async function shareResults() {
+  const url = window.location.href;
+  let text;
+  if (lastResults) {
+    text = 'I just took the Above Average Assessment. My score: ' + lastResults.overall.toFixed(2).replace(/\.?0+$/, '') + '/20 — ' + lastResults.rank + '. Where do you stand?';
+  } else {
+    text = 'Average is the new mediocre. Take the 20-question assessment and see where you stand.';
+  }
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: 'Above Average Club',
+        text: text,
+        url: url,
+      });
+    } catch (err) {
+      // User canceled
+    }
+  } else {
+    try {
+      await navigator.clipboard.writeText(text + ' ' + url);
+      const btn = $('share-btn');
+      if (btn) {
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copied to clipboard';
+        setTimeout(() => { btn.textContent = orig; }, 2000);
+      }
+    } catch (err) {
+      alert(text + '\n\n' + url);
+    }
+  }
+}
+
+$('header-cta').addEventListener('click', () => {
+  show('screen-landing');
+  setTimeout(() => {
+    const heroForm = document.querySelector('#email-form-hero input');
+    if (heroForm) heroForm.focus();
+  }, 500);
+});
+
+$('take-assessment-btn').addEventListener('click', startAssessment);
+$('take-assessment-btn-2').addEventListener('click', startAssessment);
+$('footer-assess').addEventListener('click', (e) => {
+  e.preventDefault();
+  startAssessment();
+});
+
+$('back-btn').addEventListener('click', () => {
+  if (step > 1) { step -= 1; renderQuestion(); }
+});
+
+$('restart-btn').addEventListener('click', restart);
+$('share-btn').addEventListener('click', shareResults);
+$('thanks-share').addEventListener('click', shareResults);
+$('thanks-home').addEventListener('click', restart);
+
+document.querySelectorAll('.email-form').forEach(form => {
+  const source =
+    form.id === 'email-form-hero' ? 'hero' :
+    form.id === 'email-form-bottom' ? 'bottom' :
+    form.id === 'email-form-result' ? 'result' : 'unknown';
+  form.addEventListener('submit', (e) => handleEmailSubmit(e, source));
+});
+
+console.log('%c⬧ Above Average Club', 'color: #D4A93E; font-family: serif; font-size: 20px; font-weight: bold;');
+console.log('%cAverage is the new mediocre.', 'color: #D4A93E; font-style: italic;');
+if (WEB3FORMS_ACCESS_KEY === 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
+  console.log('%c⚠ Web3Forms access key not configured. See instructions at top of file.', 'color: #d97757;');
+} else {
+  console.log('%cForm submissions route to Web3Forms.', 'color: #D4A93E; opacity: 0.7;');
+}
+</script>
+
+</body>
+</html>
