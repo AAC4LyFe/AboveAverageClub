@@ -48,7 +48,10 @@ STEP 4 — Deploy (3 min)
 
 STEP 5 — Confirm signups are working
   You should get an email from Web3Forms in the inbox you registered
-  with in Step 1, containing your email + score + rank + dimensions.
+  with in Step 1. `_subject` sets the email subject line. The payload
+  body fields include: first_name, last_name, email, source, score,
+  rank, weakest_dimension, strongest_dimension, and all five dimension
+  score fields.
   If you got that email, everything is wired up correctly.
 
 STEP 6 — Point your domain (10 min)
@@ -1479,6 +1482,30 @@ const ACTIONS = {
 let step = 0;
 let answers = {};
 let lastResults = null;
+const DIMENSION_KEY_MAP = {
+  Spiritual: 'spiritual_score',
+  Physical: 'physical_score',
+  Intellectual: 'intellectual_score',
+  Social: 'social_score',
+  Emotional: 'emotional_score',
+};
+const REQUIRED_ASSESSMENT_KEYS = [
+  '_subject',
+  'first_name',
+  'last_name',
+  'email',
+  'source',
+  'score',
+  'rank',
+  'weakest_dimension',
+  'strongest_dimension',
+  'spiritual_score',
+  'physical_score',
+  'intellectual_score',
+  'social_score',
+  'emotional_score',
+];
+const MAX_ASSESSMENT_SCORE = 20;
 
 const totalQ = QUESTIONS.length;
 const $ = (id) => document.getElementById(id);
@@ -1571,6 +1598,76 @@ function statusFor(score) {
   return { label: 'Neglected', cls: 'neglected' };
 }
 
+function formatScore(value) {
+  return Number.isFinite(value) ? value.toFixed(2) : 'N/A';
+}
+
+function titleCaseWord(word) {
+  if (!word) return '';
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
+function deriveNameFromEmail(email) {
+  if (typeof email !== 'string') return { firstName: '', lastName: '' };
+  const local = (email.split('@')[0] || '').replace(/[^a-zA-Z0-9._-]/g, '');
+  const parts = local.split(/[._-]+/).filter(Boolean);
+  const firstName = titleCaseWord(parts[0] || '');
+  const lastName = titleCaseWord(parts[1] || '');
+  return { firstName, lastName };
+}
+
+function firstArrayValueOrFallback(value, fallback) {
+  return Array.isArray(value) && value[0] ? value[0] : fallback;
+}
+
+function buildAssessmentPayload(email) {
+  const { firstName, lastName } = deriveNameFromEmail(email);
+  const hasResults = Boolean(lastResults);
+  const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Unknown';
+  const score = hasResults ? formatScore(lastResults.overall) : 'N/A';
+  const rank = hasResults ? lastResults.rank : 'N/A';
+
+  const payload = {
+    _subject: `AAC Assessment: ${fullName} — ${score}/${MAX_ASSESSMENT_SCORE} ${rank}`,
+    first_name: firstName,
+    last_name: lastName,
+    email: email,
+    source: 'assessment_result',
+    score: score,
+    rank: rank,
+    weakest_dimension: hasResults ? firstArrayValueOrFallback(lastResults.weakest, 'N/A') : 'N/A',
+    strongest_dimension: hasResults ? firstArrayValueOrFallback(lastResults.strongest, 'N/A') : 'N/A',
+    spiritual_score: 'N/A',
+    physical_score: 'N/A',
+    intellectual_score: 'N/A',
+    social_score: 'N/A',
+    emotional_score: 'N/A',
+  };
+
+  if (hasResults) {
+    Object.entries(DIMENSION_KEY_MAP).forEach(([dimension, key]) => {
+      if (lastResults.dimScores && Object.prototype.hasOwnProperty.call(lastResults.dimScores, dimension)) {
+        payload[key] = formatScore(lastResults.dimScores[dimension]);
+      }
+    });
+  }
+
+  return payload;
+}
+
+function validateAssessmentPayload(payload) {
+  const missingKeys = REQUIRED_ASSESSMENT_KEYS.filter(
+    key => !Object.prototype.hasOwnProperty.call(payload, key),
+  );
+  if (missingKeys.length) {
+    throw new Error('Missing payload fields: ' + missingKeys.join(', '));
+  }
+  const invalidTypeKeys = REQUIRED_ASSESSMENT_KEYS.filter(key => typeof payload[key] !== 'string');
+  if (invalidTypeKeys.length) {
+    throw new Error('Invalid payload field types: ' + invalidTypeKeys.join(', '));
+  }
+}
+
 function renderResults() {
   const r = computeResults();
   lastResults = r;
@@ -1650,20 +1747,16 @@ async function handleEmailSubmit(e, source) {
   const originalText = submitBtn.textContent;
   submitBtn.textContent = 'Sending...';
 
+  const assessmentPayload = buildAssessmentPayload(email);
+  validateAssessmentPayload(assessmentPayload);
+
   // Build payload for Web3Forms
   const payload = {
     access_key: WEB3FORMS_ACCESS_KEY,
-    subject: 'New AAC Waitlist Signup — ' + email,
+    subject: assessmentPayload._subject,
     from_name: 'Above Average Club',
-    email: email,
-    source: source,
+    ...assessmentPayload,
   };
-  if (lastResults) {
-    payload.score = lastResults.overall.toFixed(2);
-    payload.rank = lastResults.rank;
-    payload.weakest_dimension = lastResults.weakest[0];
-    payload.strongest_dimension = lastResults.strongest[0];
-  }
 
   // If the access key hasn't been set yet, run in demo mode
   // so Larry can still visually test the flow before deployment.
