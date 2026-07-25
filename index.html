@@ -20,55 +20,41 @@
 LARRY — HOW TO SHIP THIS (20 MINUTES, START TO FINISH)
 ============================================================
 
-The plan: Vercel hosts your site, Web3Forms captures your emails.
-Both are free. Neither requires a credit card. You will end up with
-aboveaverageclub.com live on the internet, capturing real signups.
+The plan: Vercel hosts your site and a Vercel Function handles
+email delivery. Secrets belong in Vercel Environment Variables —
+not in this HTML file.
 
-STEP 1 — Get your free Web3Forms access key (2 min)
-  Go to web3forms.com/#start
-  Enter YOUR email address (this is where waitlist signups will be sent).
-  Check your inbox for the access key — a long string of letters/numbers.
-  Copy it. You will paste it in Step 2.
+STEP 1 — Configure email environment variables
+  In Vercel Project Settings → Environment Variables, add either:
+  - WEB3FORMS_ACCESS_KEY for admin waitlist/assessment notifications, or
+  - RESEND_API_KEY and RESULT_EMAIL_FROM for admin notifications.
+  To email assessment results to the person who took the assessment,
+  RESEND_API_KEY and RESULT_EMAIL_FROM are required.
+  Optional: ASSESSMENT_ADMIN_EMAIL defaults to info@profitablefellows.com.
 
-STEP 2 — Paste your access key into this file (30 sec)
-  Search this file for: PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE
-  Replace it with your access key (keep the quotes).
-  Save the file.
+STEP 2 — Deploy
+  Commit this file and api/assessment-submit.js, then deploy through Vercel.
 
-STEP 3 — Sign up for Vercel (2 min)
-  Go to vercel.com. Sign up with email or GitHub. Free.
+STEP 3 — Test the full flow
+  Open the live site, take the assessment, submit your email, and confirm:
+  - info@profitablefellows.com receives the assessment details.
+  - The assessment taker receives their result email.
 
-STEP 4 — Deploy (3 min)
-  Go to vercel.com/drop
-  Drag this HTML file onto the page.
-  Give the project a name (like "aboveaverageclub").
-  Click Deploy.
-  Vercel gives you a live URL like your-project.vercel.app.
-  Open it. Test it. Take the assessment. Submit your email.
-
-STEP 5 — Confirm signups are working
-  You should get an email from Web3Forms in the inbox you registered
-  with in Step 1. `_subject` sets the email subject line. The payload
-  body fields include: first_name, last_name, email, source, score,
-  rank, weakest_dimension, strongest_dimension, and all five dimension
-  score fields.
-  If you got that email, everything is wired up correctly.
-
-STEP 6 — Point your domain (10 min)
+STEP 4 — Point your domain if needed
   In Vercel: Your project → Settings → Domains → Add Domain
   Type aboveaverageclub.com and follow Vercel's DNS instructions.
   Update DNS at your registrar (GoDaddy, Namecheap, etc.)
   DNS propagation takes 1–24 hours. The site is already live —
   the custom domain is cosmetic.
 
-STEP 7 — Share the link
+STEP 5 — Share the link
   Send the URL to one person. That's the finish line.
   AAC exists in the world.
 
 ============================================================
 LATER (not this weekend):
 When you need proper newsletter delivery, sign up for Beehiiv,
-export your Web3Forms submissions from your email or Web3Forms
+export your assessment submissions from your inbox or email provider
 dashboard, and import to Beehiiv as a starting list. That's a
 future problem for future-Larry.
 ============================================================
@@ -1154,13 +1140,13 @@ future problem for future-Larry.
       </div>
 
       <div class="results-waitlist">
-        <h3>Get the full report<br>when the doors open.</h3>
-        <p>You have your score. When Above Average Club opens, waitlist members go in first — with a founding-member offer built for this exact starting line.</p>
+        <h3>Email me my results<br>and join the list.</h3>
+        <p>Enter your email and we will send your assessment results to you, while keeping your spot on the Above Average Club waitlist.</p>
         <form class="email-form horizontal" id="email-form-result">
           <input class="email-input" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
-          <button class="btn-submit" type="submit">Join the Waitlist</button>
+          <button class="btn-submit" type="submit">Email My Results</button>
         </form>
-        <div class="form-note">Your score comes with you when you join.</div>
+        <div class="form-note">Your score will be emailed to you and saved with your waitlist signup.</div>
       </div>
 
       <div class="share-row">
@@ -1193,15 +1179,12 @@ future problem for future-Larry.
 
 <script>
 // ============================================================
-// FORM HANDLING — WIRED TO WEB3FORMS
+// FORM HANDLING — POSTS TO A VERCEL FUNCTION
 // ============================================================
-// Get your free access key at web3forms.com/#start (enter your
-// email, they email you the key). Paste it in the constant below.
-// Free tier: 250 waitlist signups per month. No credit card.
-// Submissions arrive as emails at the address you registered with.
+// The serverless function at /api/assessment-submit sends admin
+// notifications and participant result emails. Configure delivery
+// with Vercel environment variables instead of exposing keys here.
 // ============================================================
-
-const WEB3FORMS_ACCESS_KEY = "PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE";
 
 // ============================================================
 // THE 20 QUESTIONS — INTERLEAVED ORDER
@@ -1620,19 +1603,23 @@ function firstArrayValueOrFallback(value, fallback) {
   return Array.isArray(value) && value[0] ? value[0] : fallback;
 }
 
-function buildAssessmentPayload(email) {
+function buildAssessmentPayload(email, source) {
   const { firstName, lastName } = deriveNameFromEmail(email);
   const hasResults = Boolean(lastResults);
   const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Unknown';
   const score = hasResults ? formatScore(lastResults.overall) : 'N/A';
   const rank = hasResults ? lastResults.rank : 'N/A';
+  const normalizedSource = hasResults && source === 'result' ? 'assessment_result' : 'waitlist_' + source;
+  const subject = hasResults
+    ? `AAC Assessment: ${fullName} — ${score}/${MAX_ASSESSMENT_SCORE} ${rank}`
+    : `AAC Waitlist Signup: ${fullName}`;
 
   const payload = {
-    _subject: `AAC Assessment: ${fullName} — ${score}/${MAX_ASSESSMENT_SCORE} ${rank}`,
+    _subject: subject,
     first_name: firstName,
     last_name: lastName,
     email: email,
-    source: 'assessment_result',
+    source: normalizedSource,
     score: score,
     rank: rank,
     weakest_dimension: hasResults ? firstArrayValueOrFallback(lastResults.weakest, 'N/A') : 'N/A',
@@ -1747,46 +1734,22 @@ async function handleEmailSubmit(e, source) {
   const originalText = submitBtn.textContent;
   submitBtn.textContent = 'Sending...';
 
-  const assessmentPayload = buildAssessmentPayload(email);
+  const assessmentPayload = buildAssessmentPayload(email, source);
   validateAssessmentPayload(assessmentPayload);
 
-  // Build payload for Web3Forms
-  const payload = {
-    access_key: WEB3FORMS_ACCESS_KEY,
-    subject: assessmentPayload._subject,
-    from_name: 'Above Average Club',
-    ...assessmentPayload,
-  };
-
-  // If the access key hasn't been set yet, run in demo mode
-  // so Larry can still visually test the flow before deployment.
-  if (WEB3FORMS_ACCESS_KEY === 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
-    console.log('%c[DEMO MODE]', 'color: #D4A93E; font-weight: bold;', 'Web3Forms access key not configured yet.');
-    console.log('Payload that would have been sent:', payload);
-    console.log('Get your key at web3forms.com/#start, then paste it into WEB3FORMS_ACCESS_KEY.');
-    setTimeout(() => {
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
-      showProgress(false);
-      show('screen-thanks');
-    }, 700);
-    return;
-  }
-
-  // Real submission to Web3Forms
   try {
-    const response = await fetch('https://api.web3forms.com/submit', {
+    const response = await fetch('/api/assessment-submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(assessmentPayload),
     });
 
     const result = await response.json();
     if (result.success) {
-      console.log('%c[SUBMITTED]', 'color: #D4A93E; font-weight: bold;', payload);
+      console.log('%c[SUBMITTED]', 'color: #D4A93E; font-weight: bold;', assessmentPayload);
       submitBtn.textContent = originalText;
       submitBtn.disabled = false;
       showProgress(false);
@@ -1869,11 +1832,7 @@ document.querySelectorAll('.email-form').forEach(form => {
 
 console.log('%c⬧ Above Average Club', 'color: #D4A93E; font-family: serif; font-size: 20px; font-weight: bold;');
 console.log('%cAverage is the new mediocre.', 'color: #D4A93E; font-style: italic;');
-if (WEB3FORMS_ACCESS_KEY === 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
-  console.log('%c⚠ Web3Forms access key not configured. See instructions at top of file.', 'color: #d97757;');
-} else {
-  console.log('%cForm submissions route to Web3Forms.', 'color: #D4A93E; opacity: 0.7;');
-}
+console.log('%cForm submissions route through /api/assessment-submit.', 'color: #D4A93E; opacity: 0.7;');
 </script>
 
 </body>
