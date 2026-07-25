@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Above Average Club — Refuse to Live an Average Life</title>
-<meta name="description" content="Above Average Club is coming soon. A movement for people who refuse to drift. Take the 20-question assessment and see where you actually stand — across the five dimensions of a whole life.">
+<meta name="description" content="Take the Above Average Assessment. 20 honest questions across the five dimensions of a whole life. See where you actually stand — and get one small above average action you can take today.">
 <meta property="og:title" content="Above Average Club">
-<meta property="og:description" content="Average Is the New Mediocre. Take the 20-question assessment and see where you stand.">
+<meta property="og:description" content="Average Is the New Mediocre. Take the 20-question assessment and see where you actually stand.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aboveaverageclub.com">
 <!-- TODO Larry: generate an OG image with the quote generator (1200x630) and add: <meta property="og:image" content="..."> -->
@@ -17,60 +17,28 @@
 
 <!--
 ============================================================
-LARRY — HOW TO SHIP THIS (20 MINUTES, START TO FINISH)
+LARRY — HOW THE FORM IS WIRED (FORMSPREE)
 ============================================================
 
-The plan: Vercel hosts your site, Web3Forms captures your emails.
-Both are free. Neither requires a credit card. You will end up with
-aboveaverageclub.com live on the internet, capturing real signups.
+The assessment results form on this page sends submissions to
+Formspree, which forwards them to info@profitablefellows.com.
 
-STEP 1 — Get your free Web3Forms access key (2 min)
-  Go to web3forms.com/#start
-  Enter YOUR email address (this is where waitlist signups will be sent).
-  Check your inbox for the access key — a long string of letters/numbers.
-  Copy it. You will paste it in Step 2.
+BEFORE THIS FILE WILL CAPTURE REAL SUBMISSIONS:
+  Search this file for: PASTE_YOUR_FORMSPREE_FORM_ID_HERE
+  Replace it with the form ID Formspree gives you (see setup
+  instructions in your chat with Claude). Keep the quotes.
+  Save the file. Commit to GitHub. Vercel redeploys automatically.
 
-STEP 2 — Paste your access key into this file (30 sec)
-  Search this file for: PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE
-  Replace it with your access key (keep the quotes).
-  Save the file.
+WHAT YOU RECEIVE per submission at info@profitablefellows.com:
+  - First name, last name, email
+  - Overall score and rank
+  - Score for each of the 5 dimensions
+  - Strongest and weakest dimension
 
-STEP 3 — Sign up for Vercel (2 min)
-  Go to vercel.com. Sign up with email or GitHub. Free.
-
-STEP 4 — Deploy (3 min)
-  Go to vercel.com/drop
-  Drag this HTML file onto the page.
-  Give the project a name (like "aboveaverageclub").
-  Click Deploy.
-  Vercel gives you a live URL like your-project.vercel.app.
-  Open it. Test it. Take the assessment. Submit your email.
-
-STEP 5 — Confirm signups are working
-  You should get an email from Web3Forms in the inbox you registered
-  with in Step 1. `_subject` sets the email subject line. The payload
-  body fields include: first_name, last_name, email, source, score,
-  rank, weakest_dimension, strongest_dimension, and all five dimension
-  score fields.
-  If you got that email, everything is wired up correctly.
-
-STEP 6 — Point your domain (10 min)
-  In Vercel: Your project → Settings → Domains → Add Domain
-  Type aboveaverageclub.com and follow Vercel's DNS instructions.
-  Update DNS at your registrar (GoDaddy, Namecheap, etc.)
-  DNS propagation takes 1–24 hours. The site is already live —
-  the custom domain is cosmetic.
-
-STEP 7 — Share the link
-  Send the URL to one person. That's the finish line.
-  AAC exists in the world.
-
-============================================================
-LATER (not this weekend):
-When you need proper newsletter delivery, sign up for Beehiiv,
-export your Web3Forms submissions from your email or Web3Forms
-dashboard, and import to Beehiiv as a starting list. That's a
-future problem for future-Larry.
+WHAT THE ASSESSMENT-TAKER RECEIVES:
+  - Free tier: nothing automatic — you respond manually
+  - Professional tier ($30/mo): Formspree autoresponder sends
+    them a confirmation with their submission data
 ============================================================
 -->
 
@@ -262,6 +230,36 @@ future problem for future-Larry.
     .email-form.horizontal .email-input {
       border-right: none;
     }
+  }
+
+  /* Full form with First Name + Last Name + Email (assessment report) */
+  .email-form-full {
+    max-width: 480px;
+    margin: 0 auto 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .email-form-full .name-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  @media (min-width: 480px) {
+    .email-form-full .name-row {
+      flex-direction: row;
+    }
+    .email-form-full .name-row .email-input {
+      flex: 1;
+      width: 0;
+    }
+  }
+  .email-form-full .email-input {
+    width: 100%;
+  }
+  .email-form-full .btn-submit {
+    width: 100%;
+    margin-top: 4px;
   }
   .btn-submit {
     background: var(--gold);
@@ -1013,7 +1011,7 @@ future problem for future-Larry.
     </svg>
     <span class="logo-text">Above Average Club</span>
   </div>
-  <button class="header-cta" id="header-cta">Join Waitlist</button>
+  <button class="header-cta" id="header-cta">Take Assessment</button>
 </header>
 
 <div class="progress-wrap" id="progress-wrap" style="display:none;">
@@ -1030,16 +1028,10 @@ future problem for future-Larry.
       <div class="eyebrow">Coming Soon</div>
       <h1>Above Average Club</h1>
       <p class="hero-sub">Average Is the New Mediocre</p>
-      <p class="hero-body">Above Average Club is a growing community built on one simple standard — every day, do one thing above average. Across five dimensions of a whole life. Get on the list. Or take the 20-question assessment and see where you actually stand.</p>
+      <p class="hero-body">Above Average Club is a growing community built on one simple standard — every day, do one thing above average. Across five dimensions of a whole life. Start with the 20-question assessment and see where you actually stand.</p>
 
-      <form class="email-form horizontal" id="email-form-hero">
-        <input class="email-input" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
-        <button class="btn-submit" type="submit">Reserve My Spot</button>
-      </form>
-      <div class="form-note">No spam. No sales pitch. Just the invitation when the doors open.</div>
-
-      <button class="btn-secondary-link" id="take-assessment-btn">
-        Take the 20-Question Assessment <span class="arrow">→</span>
+      <button class="btn-primary" id="take-assessment-btn">
+        Take the Assessment <span class="arrow">→</span>
       </button>
     </div>
 
@@ -1087,13 +1079,11 @@ future problem for future-Larry.
     </div>
 
     <div class="second-email">
-      <h3>Get on the list.</h3>
-      <p>The doors haven't opened yet. When they do, waitlist members go in first — with a founding-member offer that will never come around again.</p>
-      <form class="email-form horizontal" id="email-form-bottom">
-        <input class="email-input" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
-        <button class="btn-submit" type="submit">Join the Waitlist</button>
-      </form>
-      <div class="form-note">One email when we open. That's it.</div>
+      <h3>One assessment. One honest number.</h3>
+      <p>You have not seen your line yet. Twenty questions from now, you will. That is the beginning of everything.</p>
+      <button class="btn-primary" id="take-assessment-btn-3">
+        Take the Assessment <span class="arrow">→</span>
+      </button>
     </div>
 
     <footer>
@@ -1154,13 +1144,17 @@ future problem for future-Larry.
       </div>
 
       <div class="results-waitlist">
-        <h3>Get the full report<br>when the doors open.</h3>
-        <p>You have your score. When Above Average Club opens, waitlist members go in first — with a founding-member offer built for this exact starting line.</p>
-        <form class="email-form horizontal" id="email-form-result">
+        <h3>Get your full report<br>emailed to you.</h3>
+        <p>Your score. Your five dimensions. Your first above average action for tomorrow. Delivered as a keepable email you can return to any time.</p>
+        <form class="email-form-full" id="email-form-result">
+          <div class="name-row">
+            <input class="email-input" type="text" name="first_name" placeholder="First name" required autocomplete="given-name">
+            <input class="email-input" type="text" name="last_name" placeholder="Last name" required autocomplete="family-name">
+          </div>
           <input class="email-input" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
-          <button class="btn-submit" type="submit">Join the Waitlist</button>
+          <button class="btn-submit" type="submit">Send My Report</button>
         </form>
-        <div class="form-note">Your score comes with you when you join.</div>
+        <div class="form-note">Your score comes with you. Nothing else.</div>
       </div>
 
       <div class="share-row">
@@ -1179,9 +1173,9 @@ future problem for future-Larry.
   <section class="screen" id="screen-thanks">
     <div class="thanks-screen">
       <div class="thanks-mark"><span>✓</span></div>
-      <h2>You're In.</h2>
-      <p class="thanks-blurb">You just did something most people never do — you crossed the line from watching to belonging.</p>
-      <p class="thanks-body">You'll hear from us when the doors open, and not one email before. In the meantime — go do one above average thing today. That's the whole assignment.</p>
+      <h2>Report Sent.</h2>
+      <p class="thanks-blurb">Your full assessment report is on its way. Check your inbox — and your spam folder, just in case.</p>
+      <p class="thanks-body">Now — go do one above average thing today. The one you already know needs doing. That is the whole assignment. That is Above Average Club.</p>
       <div class="thanks-actions">
         <button class="btn-primary" id="thanks-share">Share This <span class="arrow">→</span></button>
         <button class="btn-secondary-link" id="thanks-home">Back to home <span class="arrow">→</span></button>
@@ -1193,15 +1187,18 @@ future problem for future-Larry.
 
 <script>
 // ============================================================
-// FORM HANDLING — WIRED TO WEB3FORMS
+// FORM HANDLING — WIRED TO FORMSPREE
 // ============================================================
-// Get your free access key at web3forms.com/#start (enter your
-// email, they email you the key). Paste it in the constant below.
-// Free tier: 250 waitlist signups per month. No credit card.
-// Submissions arrive as emails at the address you registered with.
+// Sign up at formspree.io. Create a new form set to send
+// submissions to info@profitablefellows.com. Formspree will
+// give you a URL like https://formspree.io/f/xnqewrbg.
+// Paste the FORM ID (the part after /f/) below.
+// Free tier: 50 submissions per month, notifications only.
+// Professional ($30/mo): adds autoresponder for the submitter.
 // ============================================================
 
-const WEB3FORMS_ACCESS_KEY = "PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE";
+const FORMSPREE_FORM_ID = "xdaqpgpg";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/" + FORMSPREE_FORM_ID;
 
 // ============================================================
 // THE 20 QUESTIONS — INTERLEAVED ORDER
@@ -1482,30 +1479,6 @@ const ACTIONS = {
 let step = 0;
 let answers = {};
 let lastResults = null;
-const DIMENSION_KEY_MAP = {
-  Spiritual: 'spiritual_score',
-  Physical: 'physical_score',
-  Intellectual: 'intellectual_score',
-  Social: 'social_score',
-  Emotional: 'emotional_score',
-};
-const REQUIRED_ASSESSMENT_KEYS = [
-  '_subject',
-  'first_name',
-  'last_name',
-  'email',
-  'source',
-  'score',
-  'rank',
-  'weakest_dimension',
-  'strongest_dimension',
-  'spiritual_score',
-  'physical_score',
-  'intellectual_score',
-  'social_score',
-  'emotional_score',
-];
-const MAX_ASSESSMENT_SCORE = 20;
 
 const totalQ = QUESTIONS.length;
 const $ = (id) => document.getElementById(id);
@@ -1598,76 +1571,6 @@ function statusFor(score) {
   return { label: 'Neglected', cls: 'neglected' };
 }
 
-function formatScore(value) {
-  return Number.isFinite(value) ? value.toFixed(2) : 'N/A';
-}
-
-function titleCaseWord(word) {
-  if (!word) return '';
-  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-}
-
-function deriveNameFromEmail(email) {
-  if (typeof email !== 'string') return { firstName: '', lastName: '' };
-  const local = (email.split('@')[0] || '').replace(/[^a-zA-Z0-9._-]/g, '');
-  const parts = local.split(/[._-]+/).filter(Boolean);
-  const firstName = titleCaseWord(parts[0] || '');
-  const lastName = titleCaseWord(parts[1] || '');
-  return { firstName, lastName };
-}
-
-function firstArrayValueOrFallback(value, fallback) {
-  return Array.isArray(value) && value[0] ? value[0] : fallback;
-}
-
-function buildAssessmentPayload(email) {
-  const { firstName, lastName } = deriveNameFromEmail(email);
-  const hasResults = Boolean(lastResults);
-  const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Unknown';
-  const score = hasResults ? formatScore(lastResults.overall) : 'N/A';
-  const rank = hasResults ? lastResults.rank : 'N/A';
-
-  const payload = {
-    _subject: `AAC Assessment: ${fullName} — ${score}/${MAX_ASSESSMENT_SCORE} ${rank}`,
-    first_name: firstName,
-    last_name: lastName,
-    email: email,
-    source: 'assessment_result',
-    score: score,
-    rank: rank,
-    weakest_dimension: hasResults ? firstArrayValueOrFallback(lastResults.weakest, 'N/A') : 'N/A',
-    strongest_dimension: hasResults ? firstArrayValueOrFallback(lastResults.strongest, 'N/A') : 'N/A',
-    spiritual_score: 'N/A',
-    physical_score: 'N/A',
-    intellectual_score: 'N/A',
-    social_score: 'N/A',
-    emotional_score: 'N/A',
-  };
-
-  if (hasResults) {
-    Object.entries(DIMENSION_KEY_MAP).forEach(([dimension, key]) => {
-      if (lastResults.dimScores && Object.prototype.hasOwnProperty.call(lastResults.dimScores, dimension)) {
-        payload[key] = formatScore(lastResults.dimScores[dimension]);
-      }
-    });
-  }
-
-  return payload;
-}
-
-function validateAssessmentPayload(payload) {
-  const missingKeys = REQUIRED_ASSESSMENT_KEYS.filter(
-    key => !Object.prototype.hasOwnProperty.call(payload, key),
-  );
-  if (missingKeys.length) {
-    throw new Error('Missing payload fields: ' + missingKeys.join(', '));
-  }
-  const invalidTypeKeys = REQUIRED_ASSESSMENT_KEYS.filter(key => typeof payload[key] !== 'string');
-  if (invalidTypeKeys.length) {
-    throw new Error('Invalid payload field types: ' + invalidTypeKeys.join(', '));
-  }
-}
-
 function renderResults() {
   const r = computeResults();
   lastResults = r;
@@ -1736,6 +1639,10 @@ async function handleEmailSubmit(e, source) {
   e.preventDefault();
   const form = e.target;
   const email = form.querySelector('input[name="email"]').value.trim();
+  const firstNameInput = form.querySelector('input[name="first_name"]');
+  const lastNameInput = form.querySelector('input[name="last_name"]');
+  const firstName = firstNameInput ? firstNameInput.value.trim() : '';
+  const lastName = lastNameInput ? lastNameInput.value.trim() : '';
   const submitBtn = form.querySelector('.btn-submit');
 
   if (!email || !email.includes('@')) {
@@ -1747,23 +1654,39 @@ async function handleEmailSubmit(e, source) {
   const originalText = submitBtn.textContent;
   submitBtn.textContent = 'Sending...';
 
-  const assessmentPayload = buildAssessmentPayload(email);
-  validateAssessmentPayload(assessmentPayload);
+  // Build subject line — includes name and score when available
+  const nameForSubject = (firstName || lastName) ? (firstName + ' ' + lastName).trim() : email;
+  const scoreForSubject = lastResults ? (' — ' + lastResults.overall.toFixed(2).replace(/\.?0+$/, '') + '/20 ' + lastResults.rank) : '';
 
-  // Build payload for Web3Forms
+  // Build payload for Formspree
+  // Note: Formspree special fields are prefixed with underscore.
+  //   _subject sets the notification email subject line.
+  //   The 'email' field is used automatically as the reply-to.
   const payload = {
-    access_key: WEB3FORMS_ACCESS_KEY,
-    subject: assessmentPayload._subject,
-    from_name: 'Above Average Club',
-    ...assessmentPayload,
+    _subject: 'AAC Assessment: ' + nameForSubject + scoreForSubject,
+    first_name: firstName,
+    last_name: lastName,
+    email: email,
+    source: source,
   };
+  if (lastResults) {
+    payload.score = lastResults.overall.toFixed(2);
+    payload.rank = lastResults.rank;
+    payload.weakest_dimension = lastResults.weakest[0];
+    payload.strongest_dimension = lastResults.strongest[0];
+    payload.spiritual_score = lastResults.dimScores['Spiritual'].toFixed(2);
+    payload.physical_score = lastResults.dimScores['Physical'].toFixed(2);
+    payload.intellectual_score = lastResults.dimScores['Intellectual'].toFixed(2);
+    payload.social_score = lastResults.dimScores['Social'].toFixed(2);
+    payload.emotional_score = lastResults.dimScores['Emotional'].toFixed(2);
+  }
 
-  // If the access key hasn't been set yet, run in demo mode
+  // If the form ID hasn't been set yet, run in demo mode
   // so Larry can still visually test the flow before deployment.
-  if (WEB3FORMS_ACCESS_KEY === 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
-    console.log('%c[DEMO MODE]', 'color: #D4A93E; font-weight: bold;', 'Web3Forms access key not configured yet.');
+  if (FORMSPREE_FORM_ID === 'PASTE_YOUR_FORMSPREE_FORM_ID_HERE') {
+    console.log('%c[DEMO MODE]', 'color: #D4A93E; font-weight: bold;', 'Formspree form ID not configured yet.');
     console.log('Payload that would have been sent:', payload);
-    console.log('Get your key at web3forms.com/#start, then paste it into WEB3FORMS_ACCESS_KEY.');
+    console.log('Get your form ID at formspree.io, then paste it into FORMSPREE_FORM_ID.');
     setTimeout(() => {
       submitBtn.textContent = originalText;
       submitBtn.disabled = false;
@@ -1773,9 +1696,9 @@ async function handleEmailSubmit(e, source) {
     return;
   }
 
-  // Real submission to Web3Forms
+  // Real submission to Formspree
   try {
-    const response = await fetch('https://api.web3forms.com/submit', {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1785,14 +1708,15 @@ async function handleEmailSubmit(e, source) {
     });
 
     const result = await response.json();
-    if (result.success) {
+    // Formspree returns { ok: true } on success
+    if (response.ok && (result.ok === true || result.next)) {
       console.log('%c[SUBMITTED]', 'color: #D4A93E; font-weight: bold;', payload);
       submitBtn.textContent = originalText;
       submitBtn.disabled = false;
       showProgress(false);
       show('screen-thanks');
     } else {
-      throw new Error(result.message || 'Submission failed');
+      throw new Error((result.errors && result.errors[0] && result.errors[0].message) || result.error || 'Submission failed');
     }
   } catch (err) {
     console.error('Signup failed:', err);
@@ -1835,16 +1759,11 @@ async function shareResults() {
   }
 }
 
-$('header-cta').addEventListener('click', () => {
-  show('screen-landing');
-  setTimeout(() => {
-    const heroForm = document.querySelector('#email-form-hero input');
-    if (heroForm) heroForm.focus();
-  }, 500);
-});
+$('header-cta').addEventListener('click', startAssessment);
 
 $('take-assessment-btn').addEventListener('click', startAssessment);
 $('take-assessment-btn-2').addEventListener('click', startAssessment);
+$('take-assessment-btn-3').addEventListener('click', startAssessment);
 $('footer-assess').addEventListener('click', (e) => {
   e.preventDefault();
   startAssessment();
@@ -1859,20 +1778,18 @@ $('share-btn').addEventListener('click', shareResults);
 $('thanks-share').addEventListener('click', shareResults);
 $('thanks-home').addEventListener('click', restart);
 
-document.querySelectorAll('.email-form').forEach(form => {
+document.querySelectorAll('.email-form, .email-form-full').forEach(form => {
   const source =
-    form.id === 'email-form-hero' ? 'hero' :
-    form.id === 'email-form-bottom' ? 'bottom' :
-    form.id === 'email-form-result' ? 'result' : 'unknown';
+    form.id === 'email-form-result' ? 'assessment_result' : 'unknown';
   form.addEventListener('submit', (e) => handleEmailSubmit(e, source));
 });
 
 console.log('%c⬧ Above Average Club', 'color: #D4A93E; font-family: serif; font-size: 20px; font-weight: bold;');
 console.log('%cAverage is the new mediocre.', 'color: #D4A93E; font-style: italic;');
-if (WEB3FORMS_ACCESS_KEY === 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
-  console.log('%c⚠ Web3Forms access key not configured. See instructions at top of file.', 'color: #d97757;');
+if (FORMSPREE_FORM_ID === 'PASTE_YOUR_FORMSPREE_FORM_ID_HERE') {
+  console.log('%c⚠ Formspree form ID not configured. See instructions at top of file.', 'color: #d97757;');
 } else {
-  console.log('%cForm submissions route to Web3Forms.', 'color: #D4A93E; opacity: 0.7;');
+  console.log('%cForm submissions route to Formspree.', 'color: #D4A93E; opacity: 0.7;');
 }
 </script>
 
